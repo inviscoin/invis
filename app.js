@@ -1,25 +1,36 @@
 const f = document.getElementById('f');
+const gWrap = document.getElementById('g-wrap');
+const selectionDisplay = document.getElementById('selection-display');
+const loginArea = document.getElementById('login-area');
 
-// As 9 nacionalidades com mensagens universais
 const translations = [
-    {e:'🇧🇷', m:'Acesso regional ativado.'},
-    {e:'🇺🇸', m:'Secure line active.'},
-    {e:'🇵🇹', m:'Sistema global INVIS.'},
-    {e:'🇪🇸', m:'Acceso activado.'},
-    {e:'🇫🇷', m:'Accès activé.'},
-    {e:'🇩🇪', m:'Zugriff aktiviert.'},
-    {e:'🇮🇹', m:'Accesso attivato.'},
-    {e:'🇦🇴', m:'Acesso Angola.'},
-    {e:'🌍', m:'Global access active.'}
+    {e:'🇧🇷', m:'Acesso regional ativado.'}, {e:'🇺🇸', m:'Secure line active.'},
+    {e:'🇵🇹', m:'Sistema global INVIS.'}, {e:'🇪🇸', m:'Acceso activado.'},
+    {e:'🇫🇷', m:'Accès activé.'}, {e:'🇩🇪', m:'Zugriff aktiviert.'},
+    {e:'🇮🇹', m:'Accesso attivato.'}, {e:'🇦🇴', m:'Acesso Angola.'}, {e:'🌍', m:'Global access active.'}
 ];
 
-// Limpa a div antes de criar as bandeiras
-f.innerHTML = '';
-
-translations.forEach(t => {
+// Organiza as bandeiras em círculo na órbita
+translations.forEach((t, i) => {
     let s = document.createElement('span');
     s.innerHTML = t.e;
     s.className = 'flag';
-    s.onclick = () => alert(t.m);
+    let angle = (i * 40); // 360 / 9 = 40 graus
+    s.style.transform = `rotate(${angle}deg) translate(120px) rotate(-${angle}deg)`;
+    
+    s.onclick = () => {
+        // 1. Esconde o globo e as outras bandeiras
+        gWrap.style.display = 'none';
+        
+        // 2. Mostra a bandeira escolhida no centro
+        selectionDisplay.innerHTML = `<span class="selected-flag">${t.e}</span>`;
+        
+        // 3. Alerta de boas-vindas
+        setTimeout(() => {
+            alert(t.m);
+            // 4. Mostra o botão de login
+            loginArea.style.display = 'block';
+        }, 500);
+    };
     f.appendChild(s);
 });
