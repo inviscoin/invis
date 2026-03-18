@@ -1,32 +1,25 @@
-// Garantir que o script rode apenas quando a página carregar
-window.onload = () => {
-    const f = document.getElementById('f');
-    if(!f) return;
+const f = document.getElementById('f');
 
-    const translations = [
-        {e:'🇧🇷', m:'Bem-vindo. Acesso regional ativado.'},
-        {e:'🇺🇸', m:'Welcome. Secure line active.'},
-        {e:'🇵🇹', m:'Bem-vindo ao sistema global INVIS.'},
-        {e:'🇪🇸', m:'Bienvenido al sistema.'},
-        {e:'🇫🇷', m:'Bienvenue dans le système.'},
-        {e:'🇩🇪', m:'Willkommen im System.'},
-        {e:'🇮🇹', m:'Benvenuti nel sistema.'},
-        {e:'🇦🇴', m:'Bem-vindo ao sistema.'},
-        {e:'🌍', m:'Sistema de acesso global ativo.'}
-    ];
+// As 9 nacionalidades com mensagens universais
+const translations = [
+    {e:'🇧🇷', m:'Acesso regional ativado.'},
+    {e:'🇺🇸', m:'Secure line active.'},
+    {e:'🇵🇹', m:'Sistema global INVIS.'},
+    {e:'🇪🇸', m:'Acceso activado.'},
+    {e:'🇫🇷', m:'Accès activé.'},
+    {e:'🇩🇪', m:'Zugriff aktiviert.'},
+    {e:'🇮🇹', m:'Accesso attivato.'},
+    {e:'🇦🇴', m:'Acesso Angola.'},
+    {e:'🌍', m:'Global access active.'}
+];
 
-    // Limpa a grade antes de gerar para evitar erros
-    f.innerHTML = '';
+// Limpa a div antes de criar as bandeiras
+f.innerHTML = '';
 
-    translations.forEach(t => {
-        let s = document.createElement('span');
-        s.innerHTML = t.e;
-        s.className = 'flag';
-        s.style.cursor = 'pointer';
-        s.style.fontSize = '40px';
-        s.onclick = () => alert(t.m);
-        f.appendChild(s);
-    });
-    
-    console.log("Interface INVIS carregada com sucesso.");
-};
+translations.forEach(t => {
+    let s = document.createElement('span');
+    s.innerHTML = t.e;
+    s.className = 'flag';
+    s.onclick = () => alert(t.m);
+    f.appendChild(s);
+});
