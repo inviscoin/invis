@@ -1,18 +1,36 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>INVIS - Gateway</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div id="ui">
-        <img src="1773663831923.png" class="logo">
-        <div class="globe-container"></div>
-        <div class="grid-flags" id="f">
-            </div>
-    </div>
-    <script src="app.js"></script>
-</body>
-</html>
+const f = document.getElementById('f');
+const gWrap = document.getElementById('g-wrap');
+const selectionDisplay = document.getElementById('selection-display');
+const loginArea = document.getElementById('login-area');
+
+const translations = [
+    {e:'🇧🇷', m:'Acesso regional ativado.'}, {e:'🇺🇸', m:'Secure line active.'},
+    {e:'🇵🇹', m:'Sistema global INVIS .'}, {e:'🇪🇸', m:'Acceso activado.'},
+    {e:'🇫🇷', m:'Accès activé.'}, {e:'🇩🇪', m:'Zugriff aktiviert.'},
+    {e:'🇮🇹', m:'Accesso attivato.'}, {e:'🇦🇴', m:'Acesso Angola.'}, {e:'🌍', m:'Global access active.'}
+];
+
+// Organiza as bandeiras em círculo na órbita
+translations.forEach((t, i) => {
+    let s = document.createElement('span');
+    s.innerHTML = t.e;
+    s.className = 'flag';
+    let angle = (i * 40); // 360 / 9 = 40 graus
+    s.style.transform = `rotate(${angle}deg) translate(120px) rotate(-${angle}deg)`;
+    
+    s.onclick = () => {
+        // 1. Esconde o globo e as outras bandeiras
+        gWrap.style.display = 'none';
+        
+        // 2. Mostra a bandeira escolhida no centro
+        selectionDisplay.innerHTML = `<span class="selected-flag">${t.e}</span>`;
+        
+        // 3. Alerta de boas-vindas
+        setTimeout(() => {
+            alert(t.m);
+            // 4. Mostra o botão de login
+            loginArea.style.display = 'block';
+        }, 500);
+    };
+    f.appendChild(s);
+});
