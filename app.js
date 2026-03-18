@@ -1,8 +1,6 @@
-const v = document.getElementById('v');
 const f = document.getElementById('f');
-const ui = document.getElementById('ui');
 
-// As 9 Nacionalidades com mensagens universais
+// As 9 Nacionalidades conforme notas (Mensagens Universais)
 const translations = [
     {e:'🇧🇷', m:'Bem-vindo. Acesso regional ativado.'},
     {e:'🇺🇸', m:'Welcome. Secure line active.'},
@@ -15,7 +13,7 @@ const translations = [
     {e:'🌍', m:'Sistema de acesso global ativo.'}
 ];
 
-// Gera as bandeiras na tela
+// Gera as bandeiras dinamicamente
 translations.forEach(t => {
     let s = document.createElement('span');
     s.innerHTML = t.e;
@@ -23,15 +21,3 @@ translations.forEach(t => {
     s.onclick = () => alert(t.m);
     f.appendChild(s);
 });
-
-// Transição: Quando o vídeo acaba, mostra as bandeiras
-v.onended = () => {
-    document.getElementById('intro').style.display = 'none';
-    ui.style.display = 'flex';
-};
-
-// Fallback: Se o vídeo falhar, pula para a interface
-v.onerror = () => {
-    document.getElementById('intro').style.display = 'none';
-    ui.style.display = 'flex';
-};
