@@ -1,22 +1,22 @@
-{
-  "name": "INVIS Ecosystem",
-  "short_name": "INVIS",
-  "description": "O Futuro do Entretenimento e Conexão Digital",
-  "start_url": "/",
-  "display": "standalone",
-  "background_color": "#0b0e11",
-  "theme_color": "#0b0e11",
-  "orientation": "portrait",
-  "icons": [
-    {
-      "src": "icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
-  ]
-}
+const CACHE_NAME = 'invis-cache-v1';
+const ASSETS_TO_CACHE = [
+  '/',
+  '/manifest.json',
+  '/app.html'
+];
+
+self.addEventListener('install', (event) => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then((cache) => {
+      return cache.addAll(ASSETS_TO_CACHE);
+    })
+  );
+});
+
+self.addEventListener('fetch', (event) => {
+  event.respondWith(
+    caches.match(event.request).then((response) => {
+      return response || fetch(event.request);
+    })
+  );
+});
