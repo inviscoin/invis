@@ -1,0 +1,22 @@
+{
+  "name": "INVIS Ecosystem",
+  "short_name": "INVIS",
+  "description": "O Futuro do Entretenimento e Conexão Digital",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b0e11",
+  "theme_color": "#0b0e11",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
