@@ -1,0 +1,34 @@
+/* ARQUIVO: src/lib/styles/global.css */
+@import "./tokens.css";
+
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent; /* Remove seleção azul no mobile [8] */
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-main);
+    color: #E0E0E0;
+    font-family: var(--font-main);
+    overflow: hidden; /* Força navegação via blocos e swipes [9] */
+    user-select: none; /* Previne seleção acidental de texto [8] */
+}
+
+/* Scrollbar Invisível Padrão INVIS [7, 10] */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Aceleração de Hardware Obrigatória [11, 12] */
+.gpu-accelerated {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+}
