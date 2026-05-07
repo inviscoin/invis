@@ -1,40 +1,54 @@
 <script>
   import { onMount } from 'svelte';
   import { goto } from '$app/navigation';
-  
-  // Simulação de verificação de sessão (Parte 3)
-  let isLoading = true;
 
   onMount(async () => {
-    // No futuro, aqui verificaremos o token JWT no Supabase
+    // Verifica token de sessão JWT [11, 12]
     const userSession = localStorage.getItem('invis_token');
     
-    if (!userSession) {
-      // Se não houver login, manda para a tela de recepção oficial
-      goto('/login');
-    } else {
-      // Se estiver logado, manda para o Dashboard (Parte 4)
-      goto('/dashboard');
-    }
+    // Pequeno delay para transição fluida
+    setTimeout(() => {
+      if (!userSession) {
+        goto('/login');
+      } else {
+        goto('/dashboard');
+      }
+    }, 1000);
   });
 </script>
 
-<main class="gpu-accelerated">
-  {#if isLoading}
-    <div class="loading-screen">
-      <h1 style="color: var(--neon-cyan); text-shadow: 0 0 10px var(--neon-cyan);">INVIS</h1>
-      <p>Sincronizando com a Matriz...</p>
-    </div>
-  {/if}
+<main class="gate-keeper">
+  <div class="loader-container">
+    <h1 class="neon-text">INVIS</h1>
+    <div class="pulse-ring"></div>
+    <p>Sincronizando com a Matriz...</p>
+  </div>
 </main>
 
 <style>
-  .loading-screen {
+  .gate-keeper {
     height: 100vh;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     background: #0b0e11;
+  }
+  .neon-text {
+    color: var(--neon-cyan);
+    text-shadow: 0 0 15px var(--neon-cyan);
+    font-size: 3rem;
+  }
+  .pulse-ring {
+    border: 2px solid var(--neon-cyan);
+    border-radius: 50%;
+    height: 100px;
+    width: 100px;
+    position: absolute;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0% { transform: scale(0.5); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: scale(1.5); opacity: 0; }
   }
 </style>
