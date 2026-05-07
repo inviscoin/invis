@@ -1,11 +1,40 @@
 <script>
-  let systemStatus = "Iniciando Infraestrutura...";
+  import { onMount } from 'svelte';
+  import { goto } from '$app/navigation';
+  
+  // Simulação de verificação de sessão (Parte 3)
+  let isLoading = true;
+
+  onMount(async () => {
+    // No futuro, aqui verificaremos o token JWT no Supabase
+    const userSession = localStorage.getItem('invis_token');
+    
+    if (!userSession) {
+      // Se não houver login, manda para a tela de recepção oficial
+      goto('/login');
+    } else {
+      // Se estiver logado, manda para o Dashboard (Parte 4)
+      goto('/dashboard');
+    }
+  });
 </script>
 
-<main style="background-color: #0b0e11; color: #E0E0E0; height: 100vh; display: flex; justify-content: center; align-items: center; font-family: sans-serif; text-align: center;">
-  <div style="border: 1px solid rgba(0, 200, 255, 0.3); padding: 40px; border-radius: 24px; backdrop-filter: blur(20px);">
-    <h1 style="color: #00c8ff; text-shadow: 0 0 10px #00c8ff;">INVIS ECOSYSTEM</h1>
-    <p>{systemStatus}</p>
-    <p style="font-size: 0.8rem; color: #888;">Fase 1: Infraestrutura Base Concluída</p>
-  </div>
+<main class="gpu-accelerated">
+  {#if isLoading}
+    <div class="loading-screen">
+      <h1 style="color: var(--neon-cyan); text-shadow: 0 0 10px var(--neon-cyan);">INVIS</h1>
+      <p>Sincronizando com a Matriz...</p>
+    </div>
+  {/if}
 </main>
+
+<style>
+  .loading-screen {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #0b0e11;
+  }
+</style>
