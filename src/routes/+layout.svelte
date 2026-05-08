@@ -3,17 +3,19 @@
   import "../lib/styles/tokens.css";
   import { onMount } from 'svelte';
 
-  // Força o Fullscreen conforme regra de retenção INVIS [6, 7]
-  function toggleFullScreen() {
+  // Forçar modo Fullscreen conforme regra INVIS [5, 6]
+  function forceFullScreen() {
     if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen().catch(e => console.error(e));
+      document.documentElement.requestFullscreen().catch(e => {
+        console.warn("Fullscreen negado ou não suportado.");
+      });
     }
   }
 </script>
 
-<svelte:window on:click|once={toggleFullScreen} />
-
-<slot />
+<div on:click={forceFullScreen} class="app-container">
+  <slot />
+</div>
 
 <style>
   :global(body) {
@@ -21,7 +23,11 @@
     color: #E0E0E0;
     font-family: var(--font-main);
     margin: 0;
-    overflow: hidden; /* Força navegação via blocos [8] */
-    user-select: none;
+    overflow: hidden; /* Proíbe scroll nativo conforme regra INVIS [7] */
+    user-select: none; /* Previne seleção acidental [7] */
+  }
+  .app-container {
+    width: 100vw;
+    height: 100vh;
   }
 </style>
