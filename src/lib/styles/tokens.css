@@ -1,25 +1,14 @@
-/* ARQUIVO: src/lib/styles/tokens.css */
-/* OBJETIVO: VARIÁVEIS GLOBAIS DO DESIGN SYSTEM INVIS */
-
+/* ARQUIVO: src/lib/styles/tokens.css [16] */
 :root {
-    /* Paleta Principal Dark Mode */
-    --bg-main: #0b0e11;
-    --bg-deep: #050508;
-    --bg-glass: rgba(11, 14, 17, 0.75);
-    
-    /* Cromatismo Funcional Neon */
-    --neon-cyan: #00c8ff;      /* Azul Piscina - Interativo [4] */
-    --neon-emerald: #00FF80;   /* Verde Esmeralda - Lucro/Sucesso [4] */
-    --neon-purple: #8a2be2;    /* Roxo Vibrante - VIP2/Épico [4] */
-    --neon-red: #FF4D4D;       /* Vermelho LED - Erro/Alerta [4] */
-    --neon-gold: #D4AF37;      /* Dourado - Itens Raros/Escritor [5] */
-
-    /* Efeitos de Vidro (Glassmorphism) */
-    --blur-standard: blur(20px); /* Padrão INVIS ESTRUTURAL [3] */
-    --glass-border: 1px solid rgba(255, 255, 255, 0.1);
-    --neon-border-cyan: 1px solid rgba(0, 200, 255, 0.3);
-    
-    /* Tipografia e Performance */
-    --font-main: 'Inter', sans-serif;
-    --transition-fast: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --bg-main: #0b0e11;
+  --bg-glass: rgba(11, 14, 17, 0.8);
+  --neon-cyan: #00c8ff;
+  --neon-emerald: #00FF80;
+  --neon-purple: #8a2be2;
+  --neon-red: #FF4D4D;
+  --neon-gold: #D4AF37;
+  --blur-standard: blur(20px);
+  --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+  --font-main: 'Inter', sans-serif;
+  --transition-fast: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
