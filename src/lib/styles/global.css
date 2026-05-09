@@ -1,34 +1,67 @@
 /* ARQUIVO: src/lib/styles/global.css */
+/* OBJETIVO: ESTÍMULOS VISUAIS E ACELERAÇÃO DE HARDWARE INVIS */
+
 @import "./tokens.css";
 
-* {
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent; /* Remove seleção azul no mobile [8] */
+:global(body) {
+  background-color: var(--bg-main);
+  color: #E0E0E0;
+  font-family: var(--font-main);
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden; /* Proíbe scroll nativo conforme regra INVIS [3, 4] */
+  user-select: none; /* Previne seleção acidental de texto [5, 6] */
+  -webkit-tap-highlight-color: transparent; /* Remove seleção azul mobile [5, 7] */
+  touch-action: manipulation;
 }
 
-body, html {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    background-color: var(--bg-main);
-    color: #E0E0E0;
-    font-family: var(--font-main);
-    overflow: hidden; /* Força navegação via blocos e swipes [9] */
-    user-select: none; /* Previne seleção acidental de texto [8] */
-}
-
-/* Scrollbar Invisível Padrão INVIS [7, 10] */
-.no-scrollbar::-webkit-scrollbar {
-    display: none;
-}
-.no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-}
-
-/* Aceleração de Hardware Obrigatória [11, 12] */
+/* Camada de Aceleração de Hardware Obrigatória [8] */
 .gpu-accelerated {
-    will-change: transform, opacity;
-    transform: translateZ(0);
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000;
+}
+
+/* Estímulo de Profundidade: Glassmorphism Universal [9, 10] */
+.glass-morphism {
+  background: var(--bg-glass);
+  backdrop-filter: var(--blur-standard);
+  -webkit-backdrop-filter: var(--blur-standard);
+  border: var(--glass-border);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+}
+
+/* Estímulo de Atividade: Glow Neon Cyan [11] */
+.neon-glow-cyan {
+  box-shadow: 0 0 15px var(--neon-cyan);
+  border: 1px solid var(--neon-cyan);
+  transition: var(--transition-fast);
+}
+
+/* Animação de Vinheta Pulsante para Foco Central [12, 13] */
+.vignette-pulse {
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 150px 50px #000;
+  animation: pulseVignette 4s infinite alternate ease-in-out;
+  pointer-events: none;
+  z-index: 5;
+}
+
+@keyframes pulseVignette {
+  from { opacity: 0.6; }
+  to { opacity: 1; }
+}
+
+/* Scrollbar Invisível Padrão INVIS [3, 8] */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
