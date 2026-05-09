@@ -3,17 +3,18 @@
   import "../lib/styles/tokens.css";
   import { onMount } from 'svelte';
 
-  // Forçar modo Fullscreen conforme regra INVIS [5, 6]
+  // Forçar modo Fullscreen conforme regra absoluta INVIS [9]
   function forceFullScreen() {
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen().catch(e => {
-        console.warn("Fullscreen negado ou não suportado.");
+        console.warn("Fullscreen bloqueado pelo navegador.");
       });
     }
   }
 </script>
 
-<div on:click={forceFullScreen} class="app-container">
+<!-- Captura o primeiro clique para ativar imersão total [9] -->
+<div on:click={forceFullScreen} class="app-container" role="presentation">
   <slot />
 </div>
 
@@ -23,11 +24,17 @@
     color: #E0E0E0;
     font-family: var(--font-main);
     margin: 0;
-    overflow: hidden; /* Proíbe scroll nativo conforme regra INVIS [7] */
-    user-select: none; /* Previne seleção acidental [7] */
-  }
-  .app-container {
+    padding: 0;
+    overflow: hidden; /* Proíbe scroll nativo para navegação via blocos [9] */
+    user-select: none; /* Previne seleção acidental para estética limpa [10] */
     width: 100vw;
     height: 100vh;
+  }
+
+  .app-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
   }
 </style>
