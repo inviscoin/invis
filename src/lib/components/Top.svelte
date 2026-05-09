@@ -1,110 +1,64 @@
-<!-- 
-     ARQUIVO: src/lib/components/Top.svelte 
-     OBJETIVO: CABEÇALHO FIXO, FINANCEIRO E GESTÃO DE IDIOMAS [21, 22, 26-30]
--->
-
 <script>
-    import { icGold, userLang } from '../stores/session';
-    import { fade } from 'svelte/transition';
+  import { icGold } from '../stores/session';
+  import { fade } from 'svelte/transition';
 
-    let showLanguages = false;
-
-    // Função de Logout de Emergência [21, 22, 26]
-    function handleLogout() {
-        if(confirm("Tem certeza que deseja sair? Seu progresso de mineração será afetado!")) {
-            localStorage.clear();
-            window.location.href = "/login";
-        }
+  function handleLogout() {
+    if(confirm("Encerrar sessão? O progresso de mineração será pausado!")) {
+      localStorage.clear();
+      window.location.href = "/";
     }
-
-    // Modal Carteira Digital (Acionado por Duplo Clique no Gráfico) [22, 28]
-    function openWallet() {
-        console.log("Abrindo Carteira Digital...");
-    }
-
-    // Gesto de Pressão no Logo para Aura Search (Refinamento UX) [31, 32]
-    let pressTimer;
-    function startPress() {
-        pressTimer = setTimeout(() => {
-            alert("Aura Search Ativado - Pesquisa Omnipresente");
-        }, 1500);
-    }
-    function endPress() { clearTimeout(pressTimer); }
-
+  }
 </script>
 
 <header class="top-nav glass-morphism">
-    <!-- Lado Esquerdo: Gráfico Corporativo e Saldo [21, 22, 26] -->
-    <div class="gain-section" on:dblclick={openWallet} on:mousedown={startPress} on:mouseup={endPress} on:mouseleave={endPress}>
-        <div class="gain-chart">
-            <svg viewBox="0 0 50 20" class="chart-svg">
-                <path d="M0,20 L10,15 L20,18 L30,10 L40,12 L50,5" fill="none" stroke="var(--neon-emerald)" stroke-width="1.5" />
-            </svg>
-        </div>
-        <div class="balance-display">
-            <span class="ic-amount">{$icGold.toFixed(4)} ic</span>
-        </div>
+  <!-- Gráfico Corporativo e Saldo [3, 4] -->
+  <div class="gain-section" on:dblclick={() => console.log("Abrindo Carteira...")}>
+    <div class="gain-chart">
+      <svg viewBox="0 0 50 20" class="chart-svg">
+        <path d="M0,20 L10,15 L20,18 L30,10 L40,12 L50,5" fill="none" stroke="var(--neon-emerald)" stroke-width="1.5" />
+      </svg>
     </div>
-
-    <!-- Centro: Logout de Emergência [21, 22, 26] -->
-    <div class="center-actions">
-        <button class="btn-logout" on:click={handleLogout}>LOGOUT</button>
+    <div class="balance-display">
+      <span class="ic-amount">{$icGold.toFixed(4)} ic</span>
     </div>
+  </div>
 
-    <!-- Lado Direito: Globo (12 Idiomas) e Menu [21, 22, 27] -->
-    <div class="system-section">
-        <button class="btn-globe" on:click={() => showLanguages = !showLanguages}>
-            <img src="/icons/globe.svg" alt="Languages" />
-        </button>
-        <button class="btn-menu">
-            <div class="hamburger"></div>
-        </button>
+  <div class="center-actions">
+    <button class="btn-logout" on:click={handleLogout}>LOGOUT</button>
+  </div>
+
+  <div class="system-section">
+    <button class="btn-globe">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+    </button>
+    <div class="hamburger">
+      <span></span><span></span><span></span>
     </div>
-
-    {#if showLanguages}
-        <div class="language-modal" transition:fade>
-            <p>Selecione seu Idioma (12 disponíveis)</p>
-            <!-- Lista de idiomas injetada dinamicamente via i18n dictionary [33] -->
-        </div>
-    {/if}
+  </div>
 </header>
 
 <style>
-    .top-nav {
-        position: fixed; top: 0; left: 0; width: 100%; height: 70px;
-        display: flex; justify-content: space-between; align-items: center;
-        padding: 0 20px; z-index: 1000;
-        background: rgba(11, 14, 17, 0.75);
-        border-bottom: 1px solid rgba(0, 200, 255, 0.2);
-        backdrop-filter: blur(20px);
-    }
+  .top-nav {
+    position: fixed; top: 0; left: 0; width: 100%; height: 70px;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 20px; z-index: 1000;
+    background: rgba(11, 14, 17, 0.8);
+    border-bottom: 1px solid rgba(0, 200, 255, 0.2);
+    backdrop-filter: blur(20px);
+  }
 
-    .gain-section { cursor: pointer; display: flex; flex-direction: column; align-items: flex-start; }
-    .chart-svg { width: 50px; height: 20px; filter: drop-shadow(0 0 5px var(--neon-emerald)); }
-    .ic-amount { color: var(--neon-emerald); font-weight: bold; font-size: 0.9rem; text-shadow: 0 0 10px rgba(0, 255, 128, 0.5); }
+  .gain-section { cursor: pointer; display: flex; flex-direction: column; }
+  .chart-svg { width: 60px; height: 25px; filter: drop-shadow(0 0 5px var(--neon-emerald)); }
+  .ic-amount { color: var(--neon-emerald); font-weight: 800; font-size: 0.9rem; text-shadow: 0 0 10px rgba(0, 255, 128, 0.5); }
 
-    .btn-logout {
-        background: rgba(255, 77, 77, 0.15); border: 1px solid var(--neon-red);
-        color: var(--neon-red); padding: 5px 15px; border-radius: 20px;
-        font-weight: bold; font-size: 0.75rem; cursor: pointer;
-    }
+  .btn-logout {
+    background: rgba(255, 77, 77, 0.1); border: 1px solid var(--neon-red);
+    color: var(--neon-red); padding: 6px 16px; border-radius: 20px;
+    font-size: 0.7rem; font-weight: bold; cursor: pointer;
+    transition: 0.3s;
+  }
+  .btn-logout:hover { background: var(--neon-red); color: white; }
 
-    .system-section { display: flex; gap: 15px; }
-    .btn-globe img { width: 24px; filter: invert(1); }
-    
-    .hamburger {
-        width: 20px; height: 2px; background: white; position: relative;
-    }
-    .hamburger::before, .hamburger::after {
-        content: ""; width: 20px; height: 2px; background: white;
-        position: absolute; left: 0;
-    }
-    .hamburger::before { top: -6px; }
-    .hamburger::after { top: 6px; }
-
-    .language-modal {
-        position: absolute; top: 75px; right: 20px;
-        background: #0b0e11; border: 1px solid var(--neon-cyan);
-        padding: 20px; border-radius: 15px;
-    }
+  .hamburger { display: flex; flex-direction: column; gap: 4px; cursor: pointer; }
+  .hamburger span { width: 22px; height: 2px; background: white; border-radius: 2px; }
 </style>
