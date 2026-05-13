@@ -1,13 +1,8 @@
-/* 
-   ARQUIVO: src/lib/wallet/silver_coin.js 
-   OBJETIVO: GESTÃO DE MOEDA DE PRATA (STAMPED) E PRIORIDADE DE GASTO
-*/
-
 import { icGold, icSilver } from '../stores/session';
 
 /**
  * Lógica de Prioridade de Gasto:
- * O sistema sempre deduz o saldo da Moeda de Prata antes do Ouro [2, 7, 12]
+ * O sistema sempre deduz o saldo da Moeda de Prata antes do Ouro [5, 6]
  */
 export function processPurchase(price) {
     let remainingPrice = price;
@@ -38,15 +33,15 @@ export function processPurchase(price) {
         });
     }
 
-    return { 
-        success: remainingPrice === 0, 
-        isStamped: usedSilver > 0 // Regra de contaminação [7, 12]
+    return {
+        success: remainingPrice === 0,
+        isStamped: usedSilver > 0 // Regra de contaminação [6, 7]
     };
 }
 
 /**
  * Protocolo de Herança de Carimbo (Stamping Chain):
- * Se a compra usou Moeda de Prata, o item é carimbado permanentemente [8, 13, 14]
+ * Se a compra usou Moeda de Prata, o item é carimbado permanentemente [8, 9]
  */
 export function applyStampChain(item) {
     return { ...item, origin_silver: true, resale_blocked: true };
