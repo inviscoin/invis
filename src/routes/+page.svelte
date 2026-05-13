@@ -1,182 +1,146 @@
 <script>
-  import { onMount } from 'svelte';
-  import { fade, scale } from 'svelte/transition';
-  import { goto } from '$app/navigation';
+    /* ARQUIVO: src/routes/+page.svelte */
+    /* OBJETIVO: CADEADO MATEMÁTICO REALÍSTICO COM REFLEXO DE PISTA MOLHADA [4, 13] */
+    import { onMount } from 'svelte';
+    import { fade, scale, fly } from 'svelte/transition';
+    import { goto } from '$app/navigation';
 
-  let stage = 'locked'; // locked, opening, fingerprint [1]
-  let loadingText = "Iniciando sistema de segurança...";
-  let progress = 0;
+    let stage = 'locked'; // locked, opening, fingerprint
+    let loadingText = "Iniciando sistema de segurança...";
+    let progress = 0;
+    
+    const messages = [
+        "Carregando sistema segurança...",
+        "Sincronizando tradução Babel...",
+        "Limpando área de trabalho...",
+        "Aperfeiçoamento de fluidez GPU...",
+        "Verificando integridade da Matriz..."
+    ]; [13]
 
-  const messages = [
-    "Carregando sistema segurança...",
-    "Sincronizando tradução Babel...",
-    "Limpando área de trabalho...",
-    "Aperfeiçoamento de fluidez GPU...",
-    "Verificando integridade da Matriz..."
-  ]; [12]
+    onMount(() => {
+        let msgIndex = 0;
+        const interval = setInterval(() => {
+            progress += 20;
+            if (msgIndex < messages.length - 1) {
+                msgIndex++;
+                loadingText = messages[msgIndex];
+            }
+            if (progress >= 100) {
+                clearInterval(interval);
+                stage = 'opening';
+                setTimeout(() => { 
+                    stage = 'fingerprint'; 
+                    loadingText = "IDENTIDADE RECONHECIDA";
+                }, 1200);
+            }
+        }, 1000); // 5 segundos para imersão total [14]
+    });
 
-  onMount(() => {
-    let msgIndex = 0;
-    const interval = setInterval(() => {
-      progress += 20;
-      if (msgIndex < messages.length - 1) {
-        msgIndex++;
-        loadingText = messages[msgIndex];
-      }
-
-      if (progress >= 100) {
-        clearInterval(interval);
-        stage = 'opening';
-        // Simula a abertura mecânica do cadeado antes da digital [13]
-        setTimeout(() => { 
-          stage = 'fingerprint'; 
-          loadingText = "IDENTIDADE RECONHECIDA";
-        }, 1000);
-      }
-    }, 1000); // 5 segundos totais para imersão [13]
-  });
-
-  function startLogin() {
-    goto('/login'); [13]
-  }
+    function handleAccess() {
+        goto('/login'); [14]
+    }
 </script>
 
 <main class="opening-matrix">
-  <!-- Fundo de Tecido Dinâmico/Ondas [14] -->
-  <div class="wave-bg"></div>
+    <div class="wet-floor-reflection"></div>
+    <div class="vignette-pulse"></div>
+    <div class="matrix-rays"></div>
 
-  <!-- Vinheta Pulsante Escura Lateral [14] -->
-  <div class="vignette"></div>
+    <div class="center-content" in:fade>
+        <div class="padlock-wrapper" class:open={stage !== 'locked'}>
+            <!-- SVG de Alta Precisão: Cadeado Realístico (60% da tela) [4, 14] -->
+            <svg viewBox="0 0 200 200" class="padlock-svg">
+                <defs>
+                    <linearGradient id="metal-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#1a1a40" />
+                        <stop offset="100%" stop-color="#0b0e11" />
+                    </linearGradient>
+                    <filter id="neon-glow">
+                        <feGaussianBlur stdDeviation="3" result="blur" />
+                        <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                    </filter>
+                </defs>
 
-  <div class="center-content" in:fade>
-    <!-- Cadeado SVG de Alta Precisão (60% da tela) [11, 15] -->
-    <div class="padlock-container" class:open={stage !== 'locked'}>
-      <svg viewBox="0 0 100 100" class="padlock-svg">
-        <!-- Estrutura mecânica do arco -->
-        <path class="shackle" d="M30,40 V30 A20,20 0 0,1 70,30 V40" />
-        <!-- Corpo do Cadeado com preenchimento translúcido -->
-        <rect class="body" x="20" y="40" width="60" height="50" rx="10" fill="rgba(11, 14, 17, 0.8)" />
-        
-        {#if stage === 'fingerprint'}
-          <!-- Ícone de Digital Sutil para Estímulo de Clique [16, 17] -->
-          <g class="fingerprint-icon" on:click={startLogin} in:scale>
-            <path d="M50,55 A10,10 0 0,1 60,65" stroke="var(--neon-cyan)" fill="none" stroke-width="2" stroke-linecap="round" />
-            <path d="M45,52 A15,15 0 0,1 65,67" stroke="var(--neon-cyan)" fill="none" opacity="0.6" stroke-width="2" stroke-linecap="round" />
-            <path d="M40,50 A20,20 0 0,1 70,70" stroke="var(--neon-emerald)" fill="none" opacity="0.4" stroke-width="2" stroke-linecap="round" />
-            <circle cx="50" cy="65" r="25" fill="transparent" />
-          </g>
+                <!-- Arco do Cadeado -->
+                <path class="shackle" d="M60,80 V60 A40,40 0 0,1 140,60 V80" 
+                      stroke="var(--neon-cyan)" stroke-width="4" fill="none" filter="url(#neon-glow)" />
+                
+                <!-- Corpo do Cadeado -->
+                <rect class="body" x="40" y="80" width="120" height="90" rx="15" 
+                      fill="url(#metal-grad)" stroke="var(--neon-cyan)" stroke-width="2" />
+
+                {#if stage === 'fingerprint'}
+                <!-- Digital Realística de Alta Precisão [4] -->
+                <g class="fingerprint-scan" on:click={handleAccess} in:scale>
+                    <path d="M100,105 A15,15 0 0,1 115,120" stroke="var(--neon-emerald)" fill="none" stroke-width="2" stroke-linecap="round" />
+                    <path d="M90,102 A25,25 0 0,1 125,125" stroke="var(--neon-emerald)" fill="none" stroke-width="2" opacity="0.7" />
+                    <path d="M80,100 A35,35 0 0,1 135,130" stroke="var(--neon-cyan)" fill="none" stroke-width="2" opacity="0.4" />
+                    <circle cx="100" cy="130" r="40" fill="transparent" />
+                </g>
+                {/if}
+            </svg>
+        </div>
+
+        {#if stage !== 'fingerprint'}
+            <p class="loading-status">{loadingText}</p>
+        {:else}
+            <p class="access-hint" in:fade>Toque para Acessar</p>
         {/if}
-      </svg>
     </div>
-
-    {#if stage === 'locked' || stage === 'opening'}
-      <p class="loading-status" out:fade>{loadingText}</p>
-    {/if}
-    
-    {#if stage === 'fingerprint'}
-      <p class="access-hint" in:fade>Toque para Acessar</p>
-    {/if}
-  </div>
 </main>
 
 <style>
-  .opening-matrix {
-    height: 100vh;
-    width: 100vw;
-    overflow: hidden;
-    background: radial-gradient(circle, #3a3a99 0%, #0b0e11 100%); /* Azul com Roxo Degradê [18, 19] */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-  }
+    .opening-matrix {
+        height: 100vh; width: 100vw; overflow: hidden;
+        background: radial-gradient(circle, #3a3a99 0%, #0b0e11 100%); [15]
+        display: flex; justify-content: center; align-items: center; position: relative;
+    }
 
-  .wave-bg {
-    position: absolute;
-    width: 200%;
-    height: 200%;
-    background: url('/assets/fabric-texture.svg'); /* Tecido em movimento [14] */
-    animation: waveMove 20s infinite alternate ease-in-out;
-    opacity: 0.15;
-    pointer-events: none;
-  }
+    .wet-floor-reflection {
+        position: absolute; bottom: 0; width: 100%; height: 30%;
+        background: linear-gradient(to top, rgba(0, 200, 255, 0.15), transparent);
+        mask-image: linear-gradient(to bottom, transparent, black);
+        filter: blur(10px); z-index: 1; [4]
+    }
 
-  .vignette {
-    position: absolute;
-    inset: 0;
-    box-shadow: inset 0 0 150px 50px #000; /* Pulsante preto lateral [14, 19] */
-    animation: pulseVignette 4s infinite alternate;
-    pointer-events: none;
-  }
+    .matrix-rays {
+        position: absolute; inset: 0;
+        background: repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(0, 200, 255, 0.02) 41px);
+        pointer-events: none; z-index: 2;
+    }
 
-  .center-content {
-    z-index: 10;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-  }
+    .vignette-pulse {
+        position: absolute; inset: 0;
+        box-shadow: inset 0 0 150px 50px #000;
+        animation: pulseVignette 4s infinite alternate; z-index: 3; [16]
+    }
 
-  .padlock-container {
-    width: 60%;
-    max-width: 400px;
-    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  }
+    .center-content { z-index: 10; display: flex; flex-direction: column; align-items: center; width: 100%; }
 
-  .padlock-svg {
-    fill: none;
-    stroke: var(--neon-cyan);
-    stroke-width: 1.5;
-    filter: drop-shadow(0 0 15px var(--neon-cyan));
-  }
+    .padlock-wrapper { width: 60%; max-width: 450px; transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
 
-  .shackle {
-    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    transform-origin: 70% 40%;
-  }
+    .padlock-svg { overflow: visible; filter: drop-shadow(0 0 20px rgba(0, 200, 255, 0.3)); }
 
-  .padlock-container.open .shackle {
-    transform: translateY(-15px) rotate(20deg); /* Mecânica de abertura [15] */
-    stroke: var(--neon-emerald);
-  }
+    .shackle { transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1); transform-origin: 70% 40%; }
 
-  .fingerprint-icon {
-    cursor: pointer;
-    animation: glowPulse 2s infinite;
-  }
+    .padlock-wrapper.open .shackle { transform: translateY(-20px) rotate(25deg); stroke: var(--neon-emerald); }
 
-  .loading-status, .access-hint {
-    margin-top: 30px;
-    color: white;
-    font-family: var(--font-main);
-    text-shadow: 0 0 10px var(--neon-cyan);
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    font-size: 0.8rem;
-  }
+    .fingerprint-scan { cursor: pointer; animation: glowPulse 2s infinite; }
 
-  .access-hint {
-    color: var(--neon-emerald);
-    animation: blink 1.5s infinite;
-  }
+    .loading-status {
+        margin-top: 40px; color: white; font-family: var(--font-main);
+        text-shadow: 0 0 10px var(--neon-cyan); letter-spacing: 4px; text-transform: uppercase; font-size: 0.8rem;
+    }
 
-  @keyframes waveMove {
-    from { transform: translate(-5%, -5%) rotate(0deg); }
-    to { transform: translate(5%, 5%) rotate(3deg); }
-  }
+    .access-hint {
+        margin-top: 40px; color: var(--neon-emerald); font-weight: 800;
+        text-shadow: 0 0 15px var(--neon-emerald); letter-spacing: 2px; animation: blink 1.5s infinite;
+    }
 
-  @keyframes pulseVignette {
-    from { opacity: 0.6; }
-    to { opacity: 1; }
-  }
+    @keyframes pulseVignette { from { opacity: 0.6; } to { opacity: 1; } }
 
-  @keyframes glowPulse {
-    0%, 100% { filter: brightness(1) drop-shadow(0 0 5px var(--neon-emerald)); }
-    50% { filter: brightness(1.8) drop-shadow(0 0 20px var(--neon-emerald)); }
-  }
+    @keyframes glowPulse { 0%, 100% { filter: brightness(1) drop-shadow(0 0 5px var(--neon-emerald)); } 
+                           50% { filter: brightness(1.5) drop-shadow(0 0 20px var(--neon-emerald)); } }
 
-  @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
-  }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 </style>
